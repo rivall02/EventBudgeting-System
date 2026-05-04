@@ -1,0 +1,75 @@
+WORKFLOW, FITUR, UI YANG DIINGINKAN
+1.	Role: Koordinator Divisi
+Fungsi utama: Mengelola pengajuan anggaran dan melaporkan realisasi pengeluaran.
+•	Login Page: Menggunakan Email institusi (@student.unklab.ac.id) dan Password.
+•	Dashboard: Menampilkan Nama, Divisi, Total Anggaran yang disetujui, dan ringkasan (preview) item anggaran.
+•	Fitur Pengajuan & Tracking:
+o	Input Anggaran: Formulir berisi Item, Qty, Satuan, Harga Satuan, Kategori, dan Total.
+o	Smart-Edit: Tombol edit/hapus hanya aktif jika status pengajuan adalah 'Pending' atau 'Rejected'. Jika 'Approved' atau data dikunci Bendahara, akses edit tertutup.
+o	Panel Monitoring: Visualisasi status pengajuan (Pending, Approved, Rejected).
+o	Notifikasi Email Otomatis:
+	Ditolak: "Pengajuan [Nama Item] sebesar [Total] telah Ditolak. Alasan: [Alasan Bendahara]. Silakan perbaiki dan ajukan kembali."
+	Diterima: "Pengajuan [Nama Item] sebesar [Total] telah Disetujui."
+•	Digital Evidence Upload (Realisasi):
+o	Input realisasi pengeluaran berdasarkan item yang disetujui.
+o	Otomasi Google Drive: Bukti transaksi (nota/kuitansi) otomatis tersimpan dengan struktur folder:
+Pengeluaran Divisi > [Nama Divisi] > [Tanggal Input] > [Nama Item] > [File Foto/PDF].
+•	Keamanan Akun: Notifikasi peringatan merah wajib ganti password jika masih menggunakan default password (filkomday2026).
+
+2.	Role: Ketua Panitia / Officer (Supervisor)
+Fungsi utama: Pemantauan (Read-Only) untuk transparansi dan pengawasan.
+•	Login Page: Email institusi (@student.unklab.ac.id) dan Password.
+•	Executive Dashboard:
+o	Menampilkan grafik Burn Rate (Persentase penggunaan dana terhadap total anggaran).
+o	Ringkasan status keuangan organisasi secara real-time.
+•	Transparency View: Akses penuh untuk melihat detail Rencana Anggaran Biaya (RAB) dan Arus Kas (In/Out) tanpa hak akses manipulasi data (tambah/edit/hapus).
+3.	Role: Bendahara
+Fungsi utama: Pengambil keputusan keuangan, pengelola kas, dan administrator user.
+•	Login Page Khusus:
+o	Email institusi & Password.
+o	Token Verifikasi: Kode keamanan tambahan yang dikirim ke email untuk validasi akses Bendahara.
+•	Approval System (The Decision Maker):
+o	Notifikasi email otomatis setiap ada pengajuan masuk.
+o	Aksi: Approve (mengunci data) atau Reject (memberikan alasan penolakan dan membuka akses edit bagi Koordinator).
+o	Final Lock: Fitur untuk mengunci total anggaran divisi secara permanen guna mencegah manipulasi atau pengajuan tambahan setelah mencapai kesepakatan fix.
+•	Cash Flow Management:
+o	Input Arus Kas: Mencatat pemasukan/pengeluaran (Tanggal, Sumber/Tujuan, Keterangan, Tipe Debit/Kredit, Nominal, Bukti).
+o	Otomasi Google Drive: Bukti tersimpan dengan struktur:
+Tipe debit:
+Cash Flow > [Debit] > [Tanggal Input] > [Nama Sumber atau Tujuan] > [File Bukti].
+Tipe kredit
+Cash Flow > [Kredit] > [Tanggal Input] > [Nama Sumber atau Tujuan] > [File Bukti].
+o	Auto-Balance: Sistem menghitung saldo riil secara otomatis (Total Inflow - Total Outflow).
+•	Laporan Otomatis (Export):
+o	RAB Final: Gabungan seluruh pengajuan yang berstatus Approved.
+o	Buku Kas Besar: Laporan untuk LPJ (Format: Excel, PDF, CSV).
+o	Sinkronisasi: Integrasi ke Google Sheets.
+•	User Management:
+o	Menambah, mengedit, atau menghapus akun (Koordinator & Officer).
+o	Monitoring kredensial, termasuk melihat password yang telah diubah oleh pengguna untuk kebutuhan pemulihan internal.
+o	Daftar divisi default (Bisa ditambahkan manual): Officer, Acara, Humas, Keamanan & Kebersihan, Kerohanian, Konsumsi, Multimedia, Perlengkapan & Dekorasi, Usaha Dana & Kesehatan.
+
+4.	Sistem Otomatisasi Email Notifikasi
+A.	Notifikasi untuk Koordinator Divisi
+Sistem mengirim email otomatis saat status pengajuan diubah oleh Bendahara: 
+Subjek: [NOTIFIKASI ANGGARAN] Status Pengajuan: {Status} - {Nama Item}
+Yth. Koordinator Divisi {Nama Divisi},
+Melalui email ini kami menginformasikan status pengajuan anggaran Anda:
+Item: {nama_item}
+Total: Rp {total_harga}
+Status: {DITERIMA / DITOLAK}
+{Jika Ditolak}
+Alasan Penolakan: {reason_dari_bendahara}. Anda dapat mengajukan kembali melalui dashboard.
+{Jika Diterima}
+Data telah dikunci. Silakan melanjutkan ke proses pembelanjaan dan unggah bukti transaksi pada menu Digital Evidence Upload.
+Salam,
+Bendahara Panitia Filkom Day 2026
+B.	Notifikasi untuk Bendahara
+Sistem mengirim email otomatis saat ada pengajuan baru masuk: 
+Subjek: [PENGAJUAN BARU] {Nama Divisi} - {Nama Item}
+Halo Sir Ryvel, ada pengajuan baru yang masuk:
+Divisi: {Nama Divisi}
+Item: {Nama Item}
+Total: Rp {Total}
+Silakan login ke dashboard untuk melakukan verifikasi.
+
